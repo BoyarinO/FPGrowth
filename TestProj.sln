@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProj", "TestProj\TestProj.csproj", "{3BB9CAC8-F99D-4C8B-A7FE-71A6BB097679}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FPGrowthLibrary", "FPGrowthLibrary\FPGrowthLibrary.csproj", "{B291B45C-AB0B-4A4D-B581-0AE21B42907F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3BB9CAC8-F99D-4C8B-A7FE-71A6BB097679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BB9CAC8-F99D-4C8B-A7FE-71A6BB097679}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BB9CAC8-F99D-4C8B-A7FE-71A6BB097679}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BB9CAC8-F99D-4C8B-A7FE-71A6BB097679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B291B45C-AB0B-4A4D-B581-0AE21B42907F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B291B45C-AB0B-4A4D-B581-0AE21B42907F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B291B45C-AB0B-4A4D-B581-0AE21B42907F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B291B45C-AB0B-4A4D-B581-0AE21B42907F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
