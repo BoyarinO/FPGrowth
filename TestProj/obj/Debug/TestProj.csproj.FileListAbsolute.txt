@@ -23,3 +23,16 @@ C:\Users\User\Desktop\FPGrowth\FPGrowth\TestProj\bin\Debug\FPGrowth.pdb
 C:\Users\User\Desktop\FPGrowth\TestProj\bin\Debug\TestProj.exe.config
 C:\Users\User\Desktop\FPGrowth\TestProj\obj\Debug\TestProj.exe
 C:\Users\User\Desktop\FPGrowth\TestProj\obj\Debug\TestProj.pdb
+C:\Users\User\Desktop\FPGrowth\TestProj\bin\Debug\TestProj.exe
+C:\Users\User\Desktop\FPGrowth\TestProj\bin\Debug\TestProj.pdb
+C:\Users\User\Desktop\FPGrowth\TestProj\bin\Debug\FPGrowth.dll
+C:\Users\User\Desktop\FPGrowth\TestProj\bin\Debug\FPGrowth.pdb
+C:\Users\User\Desktop\FPGrowth\TestProj\obj\Debug\TestProj.csprojResolveAssemblyReference.cache
+C:\Users\User\Desktop\proga\FPGrowth\TestProj\bin\Debug\TestProj.exe.config
+C:\Users\User\Desktop\proga\FPGrowth\TestProj\obj\Debug\TestProj.exe
+C:\Users\User\Desktop\proga\FPGrowth\TestProj\obj\Debug\TestProj.pdb
+C:\Users\User\Desktop\proga\FPGrowth\TestProj\bin\Debug\TestProj.exe
+C:\Users\User\Desktop\proga\FPGrowth\TestProj\bin\Debug\TestProj.pdb
+C:\Users\User\Desktop\proga\FPGrowth\TestProj\bin\Debug\FPGrowth.dll
+C:\Users\User\Desktop\proga\FPGrowth\TestProj\bin\Debug\FPGrowth.pdb
+C:\Users\User\Desktop\proga\FPGrowth\TestProj\obj\Debug\TestProj.csprojResolveAssemblyReference.cache

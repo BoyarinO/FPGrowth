@@ -8,11 +8,12 @@ namespace FPGrowthLibrary
 {
     public class Node<T>
     {
-       public int Weight { get; set; }
+        public int Weight { get; set; }
         public T Symbol {get;set;}      
         public List<Node<T>> Children { get; set; }
         public Node<T> Parent { get; set; }
-        public Node<T> Sibling { get; set; }
+        public Node<T> LeftSibling { get; set; }
+        public Node<T> RightSibling { get; set; }
         public Node()
         {
             Weight = 0;

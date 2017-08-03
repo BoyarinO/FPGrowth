@@ -14,14 +14,14 @@ namespace FPGrowthLibrary
 
         public void GetSubTrees(T value)
         {
-            var root = Tree.Root;
-            var newTree = new FPTree<T>();
-            while (!Node<T>.CompareTo(root.Symbol, value))
-            {
-              //  newTree.Add()
-            }
+            //var root = Tree.Root;
+            //var newTree = new FPTree<T>();
+            //while (!Node<T>.CompareTo(root.Symbol, value))
+            //{
+            //  //  newTree.Add()
+            //}
 
-            root.Children.FirstOrDefault(t => Node<T>.CompareTo(t.Symbol, value));
+            //root.Children.FirstOrDefault(t => Node<T>.CompareTo(t.Symbol, value));
         }
 
         public void GetSubTrees(Node<T> node, T value)

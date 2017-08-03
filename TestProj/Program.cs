@@ -51,7 +51,7 @@ namespace TestProj
             var groupOfIngridients_Index = ingrideints.Select((item, index) => new
             {
                 ItemName = item,
-                Position = index
+                Position = index+1
             }).ToDictionary(t=>t.Position, t=>t.ItemName);
             //List of recipes(key instead of string) 
             var result  = afiinitives.Select((item, index) =>
@@ -79,32 +79,36 @@ namespace TestProj
 
             //Sort recipes by support
             //Ready to FP_growth
-            var sortedAffinitivies = result.Select(t => t.OrderBy(x => sortedsupport.Keys.ToList().IndexOf(x)).ToList()).ToList();
+            var sortedAffinitivies = result.Select(t => t.OrderBy(xr => sortedsupport.Keys.ToList().IndexOf(xr)).ToList()).ToList();
 
 
            var minsupportFirstStage = support.Where(t => t.Value > 2).ToDictionary(t=>t.Key,t=>t.Value);
-
-           
-
-            var FPtree = new FPTree<int>();
-          foreach(var item in sortedAffinitivies)
+         for(int i=0;i<sortedAffinitivies.Count();i++)
             {
-                Node<int> currNode = null;
-                for(int i=0;i<item.Count;i++)
+                for(int j=0;j<sortedAffinitivies[i].Count();j++)
                 {
-                    if(i==0)
+                    if (sortedAffinitivies[i][j] == 2)
                     {
-                        FPtree.Add(item[i]);
-                        currNode = FPtree.Root.Children.FirstOrDefault(t => Node<int>.CompareTo(t.Symbol, item[i]));
+                        var x = 1;
                     }
-                    else
-                    {
-                        FPtree.Add(item[i], currNode);
-                        currNode=currNode.Children.FirstOrDefault(t => Node<int>.CompareTo(t.Symbol, item[i]));
-                    }
-                  
                 }
             }
+
+
+            var Fptes = new FPTree<int>(sortedAffinitivies);
+            var currn = Fptes.Root;
+            var symbolTocheck = 2;
+            var firstCount = sortedAffinitivies.Count(t=>t.Contains(2));
+            var currnode = new Node<int>();
+            int sec = 0;
+            var firstnode = currn.Children.First(t => t.Symbol == 2);
+         while(firstnode.Sibling!=null)
+            {
+                sec++;
+                firstnode = firstnode.Sibling;
+            }
+
+         
 
 
             Console.WriteLine("Press any key to exit.");

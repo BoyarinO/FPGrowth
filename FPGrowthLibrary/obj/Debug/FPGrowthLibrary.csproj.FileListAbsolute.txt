@@ -3,3 +3,13 @@ C:\Users\User\Desktop\FPGrowth\FPGrowth\FPGrowthLibrary\bin\Debug\FPGrowth.pdb
 C:\Users\User\Desktop\FPGrowth\FPGrowth\FPGrowthLibrary\obj\Debug\FPGrowthLibrary.csprojResolveAssemblyReference.cache
 C:\Users\User\Desktop\FPGrowth\FPGrowth\FPGrowthLibrary\obj\Debug\FPGrowth.dll
 C:\Users\User\Desktop\FPGrowth\FPGrowth\FPGrowthLibrary\obj\Debug\FPGrowth.pdb
+C:\Users\User\Desktop\FPGrowth\FPGrowthLibrary\bin\Debug\FPGrowth.dll
+C:\Users\User\Desktop\FPGrowth\FPGrowthLibrary\bin\Debug\FPGrowth.pdb
+C:\Users\User\Desktop\FPGrowth\FPGrowthLibrary\obj\Debug\FPGrowth.dll
+C:\Users\User\Desktop\FPGrowth\FPGrowthLibrary\obj\Debug\FPGrowth.pdb
+C:\Users\User\Desktop\FPGrowth\FPGrowthLibrary\obj\Debug\FPGrowthLibrary.csprojResolveAssemblyReference.cache
+C:\Users\User\Desktop\proga\FPGrowth\FPGrowthLibrary\bin\Debug\FPGrowth.dll
+C:\Users\User\Desktop\proga\FPGrowth\FPGrowthLibrary\bin\Debug\FPGrowth.pdb
+C:\Users\User\Desktop\proga\FPGrowth\FPGrowthLibrary\obj\Debug\FPGrowthLibrary.csprojResolveAssemblyReference.cache
+C:\Users\User\Desktop\proga\FPGrowth\FPGrowthLibrary\obj\Debug\FPGrowth.dll
+C:\Users\User\Desktop\proga\FPGrowth\FPGrowthLibrary\obj\Debug\FPGrowth.pdb
