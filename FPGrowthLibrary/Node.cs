@@ -25,7 +25,21 @@ namespace FPGrowthLibrary
             Symbol = symbol;
             Weight = 1;
         }
-      
+        
+        public int RightSiblingsCount
+        {
+            get
+            {
+                int counter = 0;
+                var node = this;
+                while (node.RightSibling != null)
+                {
+                    node = node.RightSibling;
+                    counter++;
+                }
+                return counter;
+            }
+        }
 
         public static bool CompareTo(T value1, T value2)
         {

@@ -11,8 +11,8 @@ namespace FPGrowthLibrary
     {
         public Node<T> Root { get; set; }
         public int Count { get; set; }
-        private static List<Node<T>> LastInserted = new List<Node<T>>();
-        private static List<Node<T>> FirstInserted = new List<Node<T>>();
+        private  List<Node<T>> LastInserted = new List<Node<T>>();
+        private  List<Node<T>> FirstInserted = new List<Node<T>>();
 
 
         private FPTree()
@@ -28,15 +28,12 @@ namespace FPGrowthLibrary
             {
                 var currElement = Root;
                 for (int i = 0; i < item.Count(); i++)
-                {
-                    var x = Convert.ToInt32(item[i]);
-                    var exsist = false;
+                {                   
+                   
                     if (currElement.Children!=null && currElement.Children.Any() && currElement.Children.Any(t => Node<T>.CompareTo(t.Symbol, item[i])))
                     {
                         currElement = currElement.Children.First(t => Node<T>.CompareTo(t.Symbol, item[i]));
-                        currElement.Weight += 1;
-                        exsist = true;                    
-                     
+                        currElement.Weight += 1;                                         
                     }
                     else
                     {
@@ -45,24 +42,23 @@ namespace FPGrowthLibrary
                         node.Parent = currElement;
                         currElement.Children.Add(node);
                         node.Symbol = item[i];
-                        currElement = node;                        
-                    }                
-                    if(!exsist)
-                    {
+                        currElement = node;
+
                         if (LastInserted.Any(t => Node<T>.CompareTo(t.Symbol, item[i])))
                         {
-                            var lastInserted = LastInserted.First(t => Node<T>.CompareTo(t.Symbol, item[i]));                           
+                            var lastInserted = LastInserted.First(t => Node<T>.CompareTo(t.Symbol, item[i]));
                             lastInserted.RightSibling = currElement;
                             currElement.LeftSibling = lastInserted;
                             LastInserted.Remove(lastInserted);
                         }
                         LastInserted.Add(currElement);
 
-                        if(!FirstInserted.Any(t => Node<T>.CompareTo(t.Symbol, item[i])))
+                        if (!FirstInserted.Any(t => Node<T>.CompareTo(t.Symbol, item[i])))
                         {
                             FirstInserted.Add(currElement);
                         }
-                    }
+                    }               
+                   
                 }
             }
         }
@@ -71,51 +67,69 @@ namespace FPGrowthLibrary
         {
             var currElement = FirstInserted.FirstOrDefault(t => Node<T>.CompareTo(t.Symbol, item));
             var subTree = new FPTree<T>();
-            if(currElement!=null)
+
+            if (currElement != null)
             {
-                while(currElement.RightSibling!=null)
+                while (currElement.RightSibling != null)
                 {
-                    while (currElement.Parent.Symbol != null)
+                  
+                    var brunch = new List<Node<T>>();
+                    currElement.Children = null;
+                    while (currElement.Parent != null)
                     {
-                        //Wrong -> next element will not have Parent.Children of currElement
                         if (currElement.Parent.Children.Count > 1)
                         {
-                            currElement.Parent.Children = new List<Node<T>>();
-                            currElement.Parent.Children.Add(currElement);
-                            currElement.Weight = 1;
+                            //     currElement.Weight = 1;
+                            currElement.Parent.Children = currElement.Parent.Children.Where(t => Node<T>.CompareTo(t.Symbol, currElement.Symbol)).ToList();
                         }
+                        brunch.Add(currElement);
                         currElement = currElement.Parent;
                     }
-
-                    while(currElement.Children.Count>0)
-                    {
-                        var parent = currElement.Parent.Symbol != null ? currElement.Parent : subTree.Root;
-                        if(parent==subTree.Root)
-                        {
-                            parent.Children.Add(currElement);
-                        }                     
-                        currElement.Parent = parent;
-                     
-
-
-
-
-
-
-                        if(currElement.Children.Count>1)
-                        {
-                            //ERROR
-                            var xdaad = 1;
-                        }
-                        currElement = currElement.Children.First();
-                    }
-
-
-                    currElement = currElement.RightSibling;                    
+                    brunch.Reverse();                    
+                    subTree.InsertBrunch(brunch);
+                    var lastbr = brunch.Last();
+                    currElement = brunch.Last().RightSibling;
                 }
-
+                
             }
-            return null;
+            return subTree;
+        }        
+
+        public void InsertBrunch(List<Node<T>> brunch)
+        {
+            var currElement = this.Root;
+            for(int i=0;i<brunch.Count;i++)
+            {
+                if (currElement.Children != null && currElement.Children.Any() && currElement.Children.Any(t => Node<T>.CompareTo(t.Symbol, brunch[i].Symbol)))
+                {
+                    currElement = currElement.Children.First(t => Node<T>.CompareTo(t.Symbol, brunch[i].Symbol));
+                    currElement.Weight += 1;
+                }
+                else
+                {
+                    //Or use brunch[i] instead creting new node
+                    var node = new Node<T>();
+                    //does link changes?
+                    node.Parent = currElement;
+                    currElement.Children.Add(node);
+                    node.Symbol = brunch[i].Symbol;
+                    currElement = node;
+
+                    if (LastInserted.Any(t => Node<T>.CompareTo(t.Symbol, brunch[i].Symbol)))
+                    {
+                        var lastInserted = LastInserted.First(t => Node<T>.CompareTo(t.Symbol, brunch[i].Symbol));
+                        lastInserted.RightSibling = currElement;
+                        currElement.LeftSibling = lastInserted;
+                        LastInserted.Remove(lastInserted);
+                    }
+                    LastInserted.Add(currElement);
+
+                    if (!FirstInserted.Any(t => Node<T>.CompareTo(t.Symbol, brunch[i].Symbol)))
+                    {
+                        FirstInserted.Add(currElement);
+                    }
+                }
+            }
         }
 
 

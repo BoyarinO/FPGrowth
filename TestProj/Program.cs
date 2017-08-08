@@ -96,17 +96,18 @@ namespace TestProj
 
 
             var Fptes = new FPTree<int>(sortedAffinitivies);
+            var sub = Fptes.GetSubTree(2);
             var currn = Fptes.Root;
             var symbolTocheck = 2;
             var firstCount = sortedAffinitivies.Count(t=>t.Contains(2));
             var currnode = new Node<int>();
             int sec = 0;
             var firstnode = currn.Children.First(t => t.Symbol == 2);
-         while(firstnode.Sibling!=null)
-            {
-                sec++;
-                firstnode = firstnode.Sibling;
-            }
+         //while(firstnode.Sibling!=null)
+         //   {
+         //       sec++;
+         //       firstnode = firstnode.Sibling;
+         //   }
 
          
 
