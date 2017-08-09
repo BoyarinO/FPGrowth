@@ -66,65 +66,68 @@ namespace FPGrowthLibrary
         public FPTree<T> GetSubTree(T item)
         {
             var currElement = FirstInserted.FirstOrDefault(t => Node<T>.CompareTo(t.Symbol, item));
-            var subTree = new FPTree<T>();
+            var subTree = new FPTree<T>();           
 
             if (currElement != null)
             {
                 while (currElement.RightSibling != null)
-                {
-                  
-                    var brunch = new List<Node<T>>();
+                {                    
+                    var brunch = new Stack<Node<T>>();
                     currElement.Children = null;
+
                     while (currElement.Parent != null)
                     {
                         if (currElement.Parent.Children.Count > 1)
-                        {
-                            //     currElement.Weight = 1;
+                        {                            
                             currElement.Parent.Children = currElement.Parent.Children.Where(t => Node<T>.CompareTo(t.Symbol, currElement.Symbol)).ToList();
                         }
-                        brunch.Add(currElement);
+                        brunch.Push(currElement);
+                      
                         currElement = currElement.Parent;
                     }
-                    brunch.Reverse();                    
-                    subTree.InsertBrunch(brunch);
-                    var lastbr = brunch.Last();
-                    currElement = brunch.Last().RightSibling;
-                }
-                
+                    var lastElement = brunch.Last();
+                    var x = new Node<T>[] { };
+                    subTree.InsertBrunch(brunch.Except(new Node<T>[] { lastElement }));
+                    currElement = lastElement.RightSibling;
+                }                
             }
             return subTree;
         }        
 
-        public void InsertBrunch(List<Node<T>> brunch)
+        public void InsertBrunch(IEnumerable<Node<T>> brunch)
         {
-            var currElement = this.Root;
-            for(int i=0;i<brunch.Count;i++)
+            var currElement = this.Root;             
+
+            for(int i=0;i<brunch.Count();i++)
             {
-                if (currElement.Children != null && currElement.Children.Any() && currElement.Children.Any(t => Node<T>.CompareTo(t.Symbol, brunch[i].Symbol)))
+                var symbol = brunch.ElementAt(i).Symbol;
+
+                if (currElement.Children != null && currElement.Children.Any() && currElement.Children.Any(t => Node<T>.CompareTo(t.Symbol, symbol)))
                 {
-                    currElement = currElement.Children.First(t => Node<T>.CompareTo(t.Symbol, brunch[i].Symbol));
+                    currElement = currElement.Children.First(t => Node<T>.CompareTo(t.Symbol, symbol));
                     currElement.Weight += 1;
                 }
                 else
                 {
                     //Or use brunch[i] instead creting new node
-                    var node = new Node<T>();
+                  
+                    var node = new Node<T>(symbol);
                     //does link changes?
                     node.Parent = currElement;
-                    currElement.Children.Add(node);
-                    node.Symbol = brunch[i].Symbol;
+                    currElement.Children.Add(node);                
                     currElement = node;
 
-                    if (LastInserted.Any(t => Node<T>.CompareTo(t.Symbol, brunch[i].Symbol)))
+
+                    if (LastInserted.Any(t => Node<T>.CompareTo(t.Symbol, symbol)))
                     {
-                        var lastInserted = LastInserted.First(t => Node<T>.CompareTo(t.Symbol, brunch[i].Symbol));
+                        var lastInserted = LastInserted.First(t => Node<T>.CompareTo(t.Symbol, symbol));
                         lastInserted.RightSibling = currElement;
                         currElement.LeftSibling = lastInserted;
                         LastInserted.Remove(lastInserted);
                     }
                     LastInserted.Add(currElement);
 
-                    if (!FirstInserted.Any(t => Node<T>.CompareTo(t.Symbol, brunch[i].Symbol)))
+                    if (!FirstInserted.Any(t => Node<T>.CompareTo(t.Symbol, symbol)))
                     {
                         FirstInserted.Add(currElement);
                     }
