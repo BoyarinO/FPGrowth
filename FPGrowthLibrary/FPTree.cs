@@ -11,29 +11,26 @@ namespace FPGrowthLibrary
     {
         public Node<T> Root { get; set; }
         public int Count { get; set; }
-        private  List<Node<T>> LastInserted = new List<Node<T>>();
-        private  List<Node<T>> FirstInserted = new List<Node<T>>();
-
-
+        private List<Node<T>> LastInserted = new List<Node<T>>();
+        private List<Node<T>> FirstInserted = new List<Node<T>>();
         private FPTree()
         {
             var rootNode = new Node<T>();
             rootNode.Parent = null;
-            Root= rootNode;                                              
+            Root = rootNode;
         }
-        
-        public FPTree(IEnumerable<IList<T>> DataList):this()
-        {           
+        public FPTree(IEnumerable<IList<T>> DataList) : this()
+        {
             foreach (var item in DataList)
             {
                 var currElement = Root;
                 for (int i = 0; i < item.Count(); i++)
-                {                   
-                   
-                    if (currElement.Children!=null && currElement.Children.Any() && currElement.Children.Any(t => Node<T>.CompareTo(t.Symbol, item[i])))
+                {
+
+                    if (currElement.Children != null && currElement.Children.Any() && currElement.Children.Any(t => Node<T>.CompareTo(t.Symbol, item[i])))
                     {
                         currElement = currElement.Children.First(t => Node<T>.CompareTo(t.Symbol, item[i]));
-                        currElement.Weight += 1;                                         
+                        currElement.Weight += 1;
                     }
                     else
                     {
@@ -57,48 +54,50 @@ namespace FPGrowthLibrary
                         {
                             FirstInserted.Add(currElement);
                         }
-                    }               
-                   
+                    }
+
                 }
             }
         }
-
-        public FPTree<T> GetSubTree(T item)
+        public List<IEnumerable<T>> GetFrequentItemsForItem(T item)
+        {
+            var subTree = this.GetSubTree(item);
+            var frequentItems = subTree.ExtractFrequentItems(item);
+            return frequentItems;
+        }
+        private FPTree<T> GetSubTree(T item)
         {
             var currElement = FirstInserted.FirstOrDefault(t => Node<T>.CompareTo(t.Symbol, item));
-            var subTree = new FPTree<T>();           
+            var subTree = new FPTree<T>();
 
             if (currElement != null)
             {
                 while (currElement.RightSibling != null)
-                {                    
+                {
                     var brunch = new Stack<Node<T>>();
                     currElement.Children = null;
 
                     while (currElement.Parent != null)
                     {
                         if (currElement.Parent.Children.Count > 1)
-                        {                            
+                        {
                             currElement.Parent.Children = currElement.Parent.Children.Where(t => Node<T>.CompareTo(t.Symbol, currElement.Symbol)).ToList();
                         }
                         brunch.Push(currElement);
-                      
+
                         currElement = currElement.Parent;
-                    }
-                    var lastElement = brunch.Last();
-                    var x = new Node<T>[] { };
-                    subTree.InsertBrunch(brunch.Except(new Node<T>[] { lastElement }));
-                    currElement = lastElement.RightSibling;
-                }                
+                    }                    
+                    subTree.InsertBrunch(brunch);
+                    currElement = brunch.Last().RightSibling;
+                }              
             }
             return subTree;
-        }        
-
-        public void InsertBrunch(IEnumerable<Node<T>> brunch)
+        }
+        private void InsertBrunch(IEnumerable<Node<T>> brunch)
         {
-            var currElement = this.Root;             
+            var currElement = this.Root;
 
-            for(int i=0;i<brunch.Count();i++)
+            for (int i = 0; i < brunch.Count(); i++)
             {
                 var symbol = brunch.ElementAt(i).Symbol;
 
@@ -109,14 +108,12 @@ namespace FPGrowthLibrary
                 }
                 else
                 {
-                    //Or use brunch[i] instead creting new node
-                  
+                    //Or use brunch[i] instead creting new node                  
                     var node = new Node<T>(symbol);
                     //does link changes?
                     node.Parent = currElement;
-                    currElement.Children.Add(node);                
+                    currElement.Children.Add(node);
                     currElement = node;
-
 
                     if (LastInserted.Any(t => Node<T>.CompareTo(t.Symbol, symbol)))
                     {
@@ -134,40 +131,58 @@ namespace FPGrowthLibrary
                 }
             }
         }
-
-
-      
-
-
-       
-        public Node<T> GetFirstNode(T value)
+        private List<IEnumerable<T>> ExtractFrequentItems(T item, int minSupp = 2)
         {
-            return FirstInserted.First(t=> Node<T>.CompareTo(t.Symbol,value));
+            var currElement = this.GetFirstNode(item);
+            var brunches = new List<IEnumerable<T>>();
+            while (currElement.RightSibling != null)
+            {
+                var brunch = new Stack<T>();
+                var el = currElement.Parent;
+                while (el.Parent != null)
+                {
+                    brunch.Push(el.Symbol);
+                    el = el.Parent;
+                }
+                brunches.Add(brunch);
+                currElement = currElement.RightSibling;
+            }
+
+            var items = brunches.SelectMany(t => t.Select(a => a)).Distinct();
+            var support = new Dictionary<T, int>();
+            foreach (var it in brunches)
+            {
+                foreach (var ing in it)
+                {
+                    if (support.Any(t => Node<T>.CompareTo(t.Key, ing)))
+                    {
+                        support[ing] += 1;
+                    }
+                    else
+                    {
+                        support.Add(ing, 1);
+                    }
+                }
+            }
+
+            var frequent = brunches.Where(t => brunches.Any(a => a != t && a.ContainsAllItems(t)) && t.Count() > 1).ToList();
+            frequent.AddRange(support.Where(t => t.Value >= minSupp).Select(t => new List<T>() { t.Key }));
+            return frequent;
+        }      
+        private Node<T> GetFirstNode(T value)
+        {
+            return FirstInserted.First(t => Node<T>.CompareTo(t.Symbol, value));
         }
-        public Node<T> GetLastNode(T value)
+        private Node<T> GetLastNode(T value)
         {
             return LastInserted.First(t => Node<T>.CompareTo(t.Symbol, value));
+        }      
+    }
+    public static class LinqExt
+    {
+        public static bool ContainsAllItems<T>(this IEnumerable<T> a, IEnumerable<T> b)
+        {
+            return !b.Except(a).Any();
         }
-
-        //public List<Node<T>> GetSiblings(T value)
-        //{
-            
-            
-        //}
-
-        //public int TestDep(FPTree<T> tree,Node<T> node,int deep=0)
-        //{
-        //    var currnode = node;           
-        //    while(currnode.Children.Count()>0)
-        //    {
-        //        deep += currnode.Children.Count();
-        //        foreach(var item in currnode.Children)
-        //        {
-        //            TestDep(tree, item,deep);
-        //        }
-        //    }
-        //    return deep;
-        //}
-
     }
 }
